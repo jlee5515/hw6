@@ -92,6 +92,28 @@ std::set<std::string> boggle(const std::set<std::string>& dict, const std::set<s
 bool boggleHelper(const std::set<std::string>& dict, const std::set<std::string>& prefix, const std::vector<std::vector<char> >& board, 
 								   std::string word, std::set<std::string>& result, unsigned int r, unsigned int c, int dr, int dc)
 {
-//add your solution here!
-
+	//add your solution here!
+	if(c == board.size() || r == board.size()){ //If we reached the final column or final row, then return false
+		return 0;
+	}
+	if(!(word.size() == false)){
+		if( !(prefix.end() != prefix.find(word)) ){ 
+			if(!(dict.end() == dict.find(word))){ //The word can be found within the dictionary
+				result.insert(word);
+				return 1;
+			}
+			else{ //The word is not in the dictionary
+				return 0;
+			}
+		}
+	}
+	word = word + board[r][c];
+	bool flag = boggleHelper(dict, prefix, board, word, result, dr + r, dc + c, dr, dc);//Check to see if the word is in the dictionary
+	if(flag == 0){ //Word not inside dictionary
+		if(!(dict.find(word) == dict.end())){
+			result.insert(word);
+			return 1;
+		}
+	}
+	return flag;
 }
